@@ -1,0 +1,103 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Blast Hub [Become an NBA Star to Prove Mom Wrong ", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+--[[
+Name = <string> - The name of the UI.
+HidePremium = <bool> - Whether or not the user details shows Premium status or not.
+SaveConfig = <bool> - Toggles the config saving in the UI.
+ConfigFolder = <string> - The name of the folder where the configs are saved.
+IntroEnabled = <bool> - Whether or not to show the intro animation.
+IntroText = <string> - Text to show in the intro animation.
+IntroIcon = <string> - URL to the image you want to use in the intro animation.
+Icon = <string> - URL to the image you want displayed on the window.
+CloseCallback = <function> - Function to execute when the window is closed.
+]]
+
+
+local Tab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+Tab:AddToggle({
+	Name = "Auto Shoot Ball (Must film)",
+	Default = false,
+	Callback = function(Value)
+		  getgenv(). Shoot = Value
+		
+		while getgenv(). Shoot do
+		  game:GetService("ReplicatedStorage").Events.Video:FireServer({"Shoot"})
+		wait(0.01)
+		end
+	    end    
+})
+
+
+Tab:AddToggle({
+	Name = "Auto Upload Video (Must Pick Up Tape)",
+	Default = false,
+	Callback = function(Value)
+		  getgenv(). Upload = Value
+		
+		while getgenv(). Upload do
+		game:GetService("ReplicatedStorage").Events.Desk:FireServer({"UploadVideos"})
+        game:GetService("ReplicatedStorage").Events.Desk:FireServer({"AddQueue"})
+		wait(0.2)
+		end
+    	end    
+})
+
+
+Tab:AddToggle({
+	Name = "Auto Upgrade",
+	Default = false,
+	Callback = function(Value)
+		  getgenv(). Buy = Value
+		
+		while getgenv(). Buy do
+		game:GetService("ReplicatedStorage").Events.Upgrades:FireServer({"Buy",upgrade})
+		wait(0.01)
+		end
+    	end    
+})
+
+
+Tab:AddDropdown({
+	Name = "Choose which one to Upgrade",
+	Default = "Upload",
+	Options = {"Upload", "Ads", "Friends"},
+	Callback = function(Value)
+		  upgrade = Value
+	end    
+})
+
+
+local Tab = Window:MakeTab({
+	Name = "Others",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+Tab:AddButton({
+	Name = "Claim all Codes",
+	Callback = function()
+      	  game:GetService("ReplicatedStorage").Events.Codes:FireServer({"Use","liked.10k"})
+            game:GetService("ReplicatedStorage").Events.Codes:FireServer({"Use","5klikes"})
+            game:GetService("ReplicatedStorage").Events.Codes:FireServer({"Use","NBA"})
+            game:GetService("ReplicatedStorage").Events.Codes:FireServer({"Use","Release"})
+  	end    
+})
+
+
+Tab:AddButton({
+	Name = "Tp to End Obby",
+	Callback = function()
+      	  local TweenService = game:GetService("TweenService")
+
+local Tw = TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out,0,false,0), 
+{CFrame = CFrame.new(66.82573699951172, 9.22329044342041, -438.6651306152344)}):Play()
+  	end    
+})
